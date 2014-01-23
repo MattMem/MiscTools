@@ -5,16 +5,16 @@ my $protein_length = $ARGV[1];
 my %protein;
 #make hash of all amino acids
 my @amino_acids=('G','P','A','V','L','I','M','C','F','Y','W','H','K','R','Q','N','E','D','S','T');
-print "[";
-#foreach my $amino_acid(@amino_acids){
+#print "[";
+foreach my $amino_acid(@amino_acids){
 	for(my $i=0; $i<=$protein_length; $i++){
-#		$protein{$amino_acid}{$i}{'count'}=0;
-		print "$i,";
+		$protein{$amino_acid}{$i}{'count'}=0;
+#		print "$i,";
 	}
 	#print "\'$amino_acid\',";
-#}
-print "]\n";
-die;
+}
+#print "]\n";
+#die;
 
 open FILE, $file or die;
 
@@ -36,10 +36,13 @@ while(<FILE>){
 #print Dumper(%protein);
 
 for my $aa (keys %protein){
-	print "[\'$aa\'";
+
+    print "{\n\"key\" : \"$aa\" ,\n";
+    print "\"bar\": true,\n";
+    print "\"values\": [";
 	for my $position (sort {$a <=> $b} keys %{$protein{$aa}}){
 		my $count= $protein{$aa}{$position}{'count'};
-		print ",$count";
+		print "[$position,$count],";
 	}
-	print "],\n";
+	print "]\n},";
 }
